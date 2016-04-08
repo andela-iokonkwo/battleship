@@ -7,14 +7,44 @@ defmodule Battleship.Message do
     """
   end
 
-  def setup_game do
+  def level do
     """
     \n
+    Difficulty Level
+    Would you like to play in (b)eginner, (i)ntermidiate or (a)dvance mode
+    """
+  end
+
+  def human_fleet(2) do
+    """
     I have laid out my ships on the grid.
     You now need to layout your two ships.
     The first is two units long and the
     second is three units long.
     The grid has A1 at the top left and D4 at the bottom right.
+    """
+  end
+
+  def human_fleet(3) do
+    """
+    I have laid out my ships on the grid.
+    You now need to layout your three ships.
+    The first is two units long, the
+    second is three units long and the
+    third is four units long.
+    The grid has A1 at the top left and H8 at the bottom right.
+    """
+  end
+
+  def human_fleet(4) do
+    """
+    I have laid out my ships on the grid.
+    You now need to layout your four ships.
+    The first is two units long, the
+    second is three units long, the
+    third is four units long and the
+    fourth is five units long.
+    The grid has A1 at the top left and L12 at the bottom right.
     """
   end
 
