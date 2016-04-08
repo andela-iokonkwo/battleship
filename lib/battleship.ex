@@ -1,7 +1,8 @@
 defmodule Battleship do
   alias Battleship.Message
   alias Battleship.Game
-  alias Battleship.Computer
+  alias Battleship.Level
+
 
   def main(_args) do
     start
@@ -21,15 +22,22 @@ defmodule Battleship do
      start
   end
 
+  def command(value) when value in [:r, :restart] do
+     command(:play)
+  end
+
   def command(value) when value in [:quit, :q] do
     exit(:shutdown)
   end
 
   def command(value) when value in [:play, :p] do
-    Game.board |> Computer.layout_ships(3) |> IO.inspect
-    IO.puts Message.setup_game
-    Game.setup
-    Game.play
-    start
+    Level.setup
+    |> Game.setup
+    |> Game.play(:human, :start)
+
+    IO.gets("Do you want to (r)estart, read the (i)nstructions or (q)uit: ")
+    |> String.rstrip(?\n)
+    |> String.to_atom
+    |> command
   end
 end
