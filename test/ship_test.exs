@@ -26,7 +26,7 @@ defmodule Battleship.Ship.Test do
 
   test "#valid_ship_first_cell with random coords :across" do
     possible_columns = Battleship.Config.columns |> Enum.take(6)
-    [row, column] = Ship.valid_ship_cell(max_fleet_index: 7, size: 3, orientation: :across)
+    [row, column] = Ship.valid_first_cell(max_fleet_index: 7, size: 3, orientation: :across)
     assert Enum.any?(possible_columns, &(&1 == column))
   end
 end
