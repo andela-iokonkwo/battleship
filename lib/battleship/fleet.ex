@@ -32,13 +32,6 @@ defmodule Battleship.Fleet do
     |> Enum.empty?
   end
 
-  def format_for_display(fleet) do
-    for {row_key, value} <- fleet, into: %{} do
-      row_value = (for {_column, pos} <- value, do: pos[:status]) |> Enum.join("|")
-      { row_key, row_value }
-    end
-  end
-
   def display(fleet) do
     row_zero = Enum.take(Config.columns, Enum.count(fleet)) |> Enum.join(" ")
     IO.puts ""
@@ -56,16 +49,23 @@ defmodule Battleship.Fleet do
     |> update_with_ship(tail, ship_size)
   end
 
-  def update_cell_on_ship_creation(fleet, [row, column], ship_size) do
-    Map.update!(fleet, row, fn(x) ->
-      name = Config.ship_name[ship_size]
-      Map.update!(x, column, fn(_v) -> [ship: ship_size, status: name] end)
-    end)
-  end
-
   def update_cell_on_play(fleet, [row, column], status) do
     Map.update!(fleet, row, fn(x) ->
       Map.update!(x, column, fn(_v) -> [ship: _v[:ship], status: status] end)
+    end)
+  end
+
+  defp format_for_display(fleet) do
+    for {row_key, value} <- fleet, into: %{} do
+      row_value = (for {_column, pos} <- value, do: pos[:status]) |> Enum.join("|")
+      { row_key, row_value }
+    end
+  end
+
+  defp update_cell_on_ship_creation(fleet, [row, column], ship_size) do
+    Map.update!(fleet, row, fn(x) ->
+      name = Config.ship_name[ship_size]
+      Map.update!(x, column, fn(_v) -> [ship: ship_size, status: name] end)
     end)
   end
 end
