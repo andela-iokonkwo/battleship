@@ -1,5 +1,5 @@
 defmodule Battleship.Computer do
-  alias Battleship.Generator
+  alias Battleship.Ship
   alias Battleship.Config
   alias Battleship.Fleet
 
@@ -16,13 +16,12 @@ defmodule Battleship.Computer do
     Fleet.update_with_ship(fleet, ship_positions, head) |> fleet(tail)
   end
 
-  def ship_without_overlap(fleet, ship_spec) do
-
-    max_board_index = map_size(fleet) - 1
-    cell = Generator.random_cell(max_board_index, ship_spec)
-    ship_position = Generator.positions(cell, ship_spec)
+  def ship_without_overlap(fleet, { size, orientation }) do
+    max_index = map_size(fleet) - 1
+    cell = Ship.valid_first_cell(max_fleet_index: max_index, size: size, orientation: orientation)
+    ship_position = Ship.positions(start: cell, size: size, orientation: orientation)
     if Fleet.ship_overlap?(fleet, ship_position) do
-      ship_without_overlap(fleet, ship_spec)
+      ship_without_overlap(fleet, { size, orientation })
     else
       ship_position
     end

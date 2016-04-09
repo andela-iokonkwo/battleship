@@ -1,6 +1,6 @@
 defmodule Battleship.Human do
   alias Battleship.Message
-  alias Battleship.Generator
+  alias Battleship.Ship
   alias Battleship.Config
   alias Battleship.Fleet
 
@@ -26,9 +26,8 @@ defmodule Battleship.Human do
       Enum.at(list, 0) == Enum.at(list, 3) -> :across
       true -> :down
     end
-    first_cell =
-    ship_position_ = cell_from_coordinate(first_coordinate)
-                     |> Generator.positions({ ship_size, orientation })
+    first_cell = cell_from_coordinate(first_coordinate)
+    ship_position_ = Ship.positions(start: first_cell, size: ship_size, orientation: orientation)
     if Fleet.ship_overlap?(fleet, ship_position_) do
       IO.puts "Error: This ship overlaps with another ship. "
       ship_without_overlap(fleet, ship_size)

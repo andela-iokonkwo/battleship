@@ -20,13 +20,13 @@ defmodule Battleship.Ship.Test do
 
   test "#valid_ship_first_cell with random coords :down" do
     possible_rows = Battleship.Config.rows |> Enum.take(6)
-    [row, column] = Ship.valid_ship_first_cell(max_fleet_index: 7, size: 3,  orientation: :down)
+    [row, column] = Ship.valid_first_cell(max_fleet_index: 7, size: 3,  orientation: :down)
     assert Enum.any?(possible_rows, &(&1 == row))
   end
 
   test "#valid_ship_first_cell with random coords :across" do
     possible_columns = Battleship.Config.columns |> Enum.take(6)
-    [row, column] = Ship.valid_ship_first_cell(max_fleet_index: 7, size: 3, orientation: :across)
+    [row, column] = Ship.valid_ship_cell(max_fleet_index: 7, size: 3, orientation: :across)
     assert Enum.any?(possible_columns, &(&1 == column))
   end
 end
