@@ -2,9 +2,10 @@ defmodule Battleship do
   alias Battleship.Message
   alias Battleship.Game
   alias Battleship.Level
-
+  alias Battleship.State
 
   def main(_args) do
+    State.start
     start
   end
 
@@ -15,7 +16,6 @@ defmodule Battleship do
     |> String.to_atom
     |> command
   end
-
 
   def command(value) when value in [:i, :instruction] do
      IO.puts Message.instruction
@@ -31,13 +31,13 @@ defmodule Battleship do
   end
 
   def command(value) when value in [:play, :p] do
-    Level.setup
-    |> Game.setup
-    |> Game.play(:human, :start)
+    setup = Level.setup |> Game.setup
+    State.start_time
+    Game.play(setup, :human, :start)
 
     IO.gets("Do you want to (r)estart, read the (i)nstructions or (q)uit: ")
-    |> String.rstrip(?\n)
-    |> String.to_atom
-    |> command
+      |> String.rstrip(?\n)
+      |> String.to_atom
+      |> command
   end
 end

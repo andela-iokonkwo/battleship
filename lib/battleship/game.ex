@@ -3,6 +3,7 @@ defmodule Battleship.Game do
   alias Battleship.Fleet
   alias Battleship.Human
   alias Battleship.Config
+  alias Battleship.State
 
   def setup([board_size: size, ship_count: count]) do
     computer_fleet = Computer.generate_fleet(size, count)
@@ -12,13 +13,18 @@ defmodule Battleship.Game do
 
   def play({ _computer_fleet, _human_fleet }, :computer, :game_over), do: :game_over
   def play({ _computer_fleet, _human_fleet }, :human, :game_over) do
+    total_time = State.total_time
+    shots = State.get(:shots)
     IO.puts "Sorry!!! You lost the game"
+    IO.puts "It took computer #{shots + 1} shots to sink all your ships"
+    IO.puts "The game lasted for #{total_time}"
   end
 
   def play({ computer_fleet, human_fleet }, :human,  _status) do
     IO.puts "Your turn! Here's what you know:"
     Fleet.display(human_fleet)
     { status, computer_fleet, ship_size } = shoot(:human, computer_fleet)
+    State.inc_shots
     display_status(status, :human, ship_size)
     play({ computer_fleet, human_fleet }, :computer,  status)
   end
@@ -83,7 +89,11 @@ defmodule Battleship.Game do
   end
 
   def display_status(:game_over, :human, _) do
+    total_time = State.total_time
+    shots = State.get(:shots)
     IO.puts "Congratulations!!! You won the game"
+    IO.puts "It took you #{shots} shots to sink the opponent’s ships"
+    IO.puts "The game lasted for #{total_time}"
   end
 
   def display_status(:ship_sunk, :human, ship_size) do

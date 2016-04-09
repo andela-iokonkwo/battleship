@@ -1,12 +1,12 @@
 defmodule Battleship.Ship do
   alias Battleship.Config
 
-  def valid_ship_first_cell([max_fleet_index: max_index, size: size, orientation: orientation] = options) do
+  def valid_first_cell([max_fleet_index: max_index, size: size, orientation: orientation] = options) do
     row_index = Enum.random(0..max_index)
     column_index = Enum.random(0..max_index)
     in_valid? = [row_index, column_index] |> check_validity(orientation, max_index, size)
     cond do
-      in_valid? ->  valid_ship_first_cell(options)
+      in_valid? ->  valid_first_cell(options)
       true -> cell([row_index, column_index])
     end
   end
