@@ -4,13 +4,6 @@ This project is an implementation of the classic game Battleship.
 
 ## Introduction
 
-### Learning Goals / Areas of Focus
-
-- Proficiently use TDD to drive development
-- Practice breaking a program into logical components
-- Learn to implement a REPL interface
-- Apply Enumerable techniques in a real context
-
 ### Building the game
 
 To build the game, run:
